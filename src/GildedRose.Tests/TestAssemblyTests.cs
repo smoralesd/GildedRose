@@ -71,6 +71,23 @@ namespace GildedRose.Tests
             RunUpdatesAndAssert(Program.AgedBrie, expectedValues);
         }
 
+        [Fact]
+        public void TestMongooseElixir()
+        {
+            var expectedValues = new List<ExpectedValues>
+            {
+                new ExpectedValues { Quality = 6, SellIn = 4 },
+                new ExpectedValues { Quality = 5, SellIn = 3 },
+                new ExpectedValues { Quality = 4, SellIn = 2 },
+                new ExpectedValues { Quality = 3, SellIn = 1 },
+                new ExpectedValues { Quality = 2, SellIn = 0 },
+                new ExpectedValues { Quality = 0, SellIn = -1 },
+                new ExpectedValues { Quality = 0, SellIn = -2 }
+            };
+
+            RunUpdatesAndAssert(Program.MongooseElixir, expectedValues);
+        }
+
         private static void RunUpdatesAndAssert(Item updatee, IEnumerable<ExpectedValues> values)
         {
             var expectedName = updatee.Name;
