@@ -10,10 +10,7 @@ namespace GildedRose.Tests
         [Fact]
         public void TestTheTruth()
         {
-            var app = new Program()
-            {
-                Items = new List<Item>()
-            };
+            var app = new Program(new List<Item>());
             app.Should().NotBeNull();
             app.UpdateQuality();
             true.Should().BeTrue();
