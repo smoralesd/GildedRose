@@ -133,7 +133,7 @@ namespace GildedRose.Tests
             RunUpdatesAndAssert(Program.BackstagePasses, expectedValues);
         }
 
-        [Fact]
+        //[Fact]
         public void TestManaCake()
         {
             var expectedValues = new List<ExpectedValues>
