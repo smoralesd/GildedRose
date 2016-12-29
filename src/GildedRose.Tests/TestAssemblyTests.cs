@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using FluentAssertions;
+using GildedRose.Console;
 using Xunit;
 
 namespace GildedRose.Tests
@@ -7,7 +10,13 @@ namespace GildedRose.Tests
         [Fact]
         public void TestTheTruth()
         {
-            Assert.True(true);
+            var app = new Program()
+            {
+                Items = new List<Item>()
+            };
+            app.Should().NotBeNull();
+            app.UpdateQuality();
+            true.Should().BeTrue();
         }
     }
 }
