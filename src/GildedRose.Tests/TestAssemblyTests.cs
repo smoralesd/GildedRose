@@ -127,10 +127,24 @@ namespace GildedRose.Tests
                 new ExpectedValues { Quality = 47, SellIn = 1 },
                 new ExpectedValues { Quality = 50, SellIn = 0 },
                 new ExpectedValues { Quality = 0, SellIn = -1 },
-                new ExpectedValues { Quality = 0, SellIn = -2 },
+                new ExpectedValues { Quality = 0, SellIn = -2 }
             };
 
             RunUpdatesAndAssert(Program.BackstagePasses, expectedValues);
+        }
+
+        [Fact]
+        public void TestManaCake()
+        {
+            var expectedValues = new List<ExpectedValues>
+            {
+                new ExpectedValues { Quality = 4, SellIn = 2 },
+                new ExpectedValues { Quality = 2, SellIn = 1 },
+                new ExpectedValues { Quality = 0, SellIn = 0 },
+                new ExpectedValues { Quality = 0, SellIn = -1 }
+            };
+
+            RunUpdatesAndAssert(Program.ManaCake, expectedValues);
         }
 
         private static void RunUpdatesAndAssert(Item updatee, IEnumerable<ExpectedValues> values)
