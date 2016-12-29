@@ -106,6 +106,33 @@ namespace GildedRose.Tests
             }
         }
 
+        [Fact]
+        public void TestBackstagePasses()
+        {
+            var expectedValues = new List<ExpectedValues>
+            {
+                new ExpectedValues { Quality = 21, SellIn = 14 },
+                new ExpectedValues { Quality = 22, SellIn = 13 },
+                new ExpectedValues { Quality = 23, SellIn = 12 },
+                new ExpectedValues { Quality = 24, SellIn = 11 },
+                new ExpectedValues { Quality = 25, SellIn = 10 },
+                new ExpectedValues { Quality = 27, SellIn = 9 },
+                new ExpectedValues { Quality = 29, SellIn = 8 },
+                new ExpectedValues { Quality = 31, SellIn = 7 },
+                new ExpectedValues { Quality = 33, SellIn = 6 },
+                new ExpectedValues { Quality = 35, SellIn = 5 },
+                new ExpectedValues { Quality = 38, SellIn = 4 },
+                new ExpectedValues { Quality = 41, SellIn = 3 },
+                new ExpectedValues { Quality = 44, SellIn = 2 },
+                new ExpectedValues { Quality = 47, SellIn = 1 },
+                new ExpectedValues { Quality = 50, SellIn = 0 },
+                new ExpectedValues { Quality = 0, SellIn = -1 },
+                new ExpectedValues { Quality = 0, SellIn = -2 },
+            };
+
+            RunUpdatesAndAssert(Program.BackstagePasses, expectedValues);
+        }
+
         private static void RunUpdatesAndAssert(Item updatee, IEnumerable<ExpectedValues> values)
         {
             var expectedName = updatee.Name;
