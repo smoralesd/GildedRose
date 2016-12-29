@@ -9,15 +9,6 @@ namespace GildedRose.Tests
     public class TestAssemblyTests
     {
         [Fact]
-        public void TestProgramConstruction()
-        {
-            var app = new Program(new List<Item>());
-            app.Should().NotBeNull();
-            app.UpdateQuality();
-            true.Should().BeTrue();
-        }
-
-        [Fact]
         public void TestDexteryVest()
         {
             var expectedValue = new List<ExpectedValues>
@@ -38,20 +29,6 @@ namespace GildedRose.Tests
                 new ExpectedValues { Quality = 2, SellIn = -4 },
                 new ExpectedValues { Quality = 0, SellIn = -5 },
                 new ExpectedValues { Quality = 0, SellIn = -6 },
-                new ExpectedValues { Quality = 0, SellIn = -7 },
-                new ExpectedValues { Quality = 0, SellIn = -8 },
-                new ExpectedValues { Quality = 0, SellIn = -9 },
-                new ExpectedValues { Quality = 0, SellIn = -10 },
-                new ExpectedValues { Quality = 0, SellIn = -11 },
-                new ExpectedValues { Quality = 0, SellIn = -12 },
-                new ExpectedValues { Quality = 0, SellIn = -13 },
-                new ExpectedValues { Quality = 0, SellIn = -14 },
-                new ExpectedValues { Quality = 0, SellIn = -15 },
-                new ExpectedValues { Quality = 0, SellIn = -16 },
-                new ExpectedValues { Quality = 0, SellIn = -17 },
-                new ExpectedValues { Quality = 0, SellIn = -18 },
-                new ExpectedValues { Quality = 0, SellIn = -19 },
-                new ExpectedValues { Quality = 0, SellIn = -20 }
             };
 
             RunUpdatesAndAssert(Program.DexteryVest, expectedValue);
@@ -84,6 +61,11 @@ namespace GildedRose.Tests
                 new ExpectedValues { Quality = 38, SellIn = -18 },
                 new ExpectedValues { Quality = 40, SellIn = -19 },
                 new ExpectedValues { Quality = 42, SellIn = -20 },
+                new ExpectedValues { Quality = 44, SellIn = -21 },
+                new ExpectedValues { Quality = 46, SellIn = -22 },
+                new ExpectedValues { Quality = 48, SellIn = -23 },
+                new ExpectedValues { Quality = 50, SellIn = -24 },
+                new ExpectedValues { Quality = 50, SellIn = -25 },
             };
 
             RunUpdatesAndAssert(Program.AgedBrie, expectedValues);
