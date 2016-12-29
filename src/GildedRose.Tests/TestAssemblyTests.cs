@@ -88,6 +88,24 @@ namespace GildedRose.Tests
             RunUpdatesAndAssert(Program.MongooseElixir, expectedValues);
         }
 
+        [Fact]
+        public void TestSulfuras()
+        {
+            var baseSulfuras = Program.Sulfuras;
+            var updatee = Program.Sulfuras;
+
+            var app = new Program(new List<Item> { updatee });
+
+            for (var step = 0; step < 500; ++step)
+            {
+                app.UpdateQuality();
+
+                updatee.Name.ShouldBeEquivalentTo(baseSulfuras.Name, $"<Name on update step [{step}]>");
+                updatee.Quality.ShouldBeEquivalentTo(baseSulfuras.Quality, $"<Quality on update step [{step}]?");
+                updatee.SellIn.ShouldBeEquivalentTo(baseSulfuras.SellIn, $"<SellIn on update step [{step}]>");
+            }
+        }
+
         private static void RunUpdatesAndAssert(Item updatee, IEnumerable<ExpectedValues> values)
         {
             var expectedName = updatee.Name;
