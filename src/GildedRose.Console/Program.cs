@@ -50,6 +50,11 @@ namespace GildedRose.Console
     {
         public static IItemUpdater Create(Item item)
         {
+            if (item.Name.Equals(Program.Sulfuras.Name))
+            {
+                return new NullItemUpdater(item);
+            }
+
             return new ItemUpdater(item);
         }
     }
