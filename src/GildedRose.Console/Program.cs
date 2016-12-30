@@ -91,10 +91,7 @@ namespace GildedRose.Console
             {
                 if (Item.Quality > 0)
                 {
-                    if (Item.Name != "Sulfuras, Hand of Ragnaros")
-                    {
-                        Item.Quality = Item.Quality - 1;
-                    }
+                    Item.Quality = Item.Quality - 1;
                 }
             }
             else
@@ -124,10 +121,7 @@ namespace GildedRose.Console
                 }
             }
 
-            if (Item.Name != "Sulfuras, Hand of Ragnaros")
-            {
-                Item.SellIn = Item.SellIn - 1;
-            }
+            Item.SellIn = Item.SellIn - 1;
 
             if (Item.SellIn < 0)
             {
@@ -137,10 +131,7 @@ namespace GildedRose.Console
                     {
                         if (Item.Quality > 0)
                         {
-                            if (Item.Name != "Sulfuras, Hand of Ragnaros")
-                            {
-                                Item.Quality = Item.Quality - 1;
-                            }
+                            Item.Quality = Item.Quality - 1;
                         }
                     }
                     else
