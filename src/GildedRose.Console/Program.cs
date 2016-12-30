@@ -42,80 +42,7 @@ namespace GildedRose.Console
 
         public void UpdateQuality()
         {
-            _itemUpdaters.ToList().ForEach(updater => UpdateItem(updater.Item));
-        }
-
-        private static void UpdateItem(Item currentItem)
-        {
-            if (currentItem.Name != "Aged Brie" && currentItem.Name != "Backstage passes to a TAFKAL80ETC concert")
-            {
-                if (currentItem.Quality > 0)
-                {
-                    if (currentItem.Name != "Sulfuras, Hand of Ragnaros")
-                    {
-                        currentItem.Quality = currentItem.Quality - 1;
-                    }
-                }
-            }
-            else
-            {
-                if (currentItem.Quality < 50)
-                {
-                    currentItem.Quality = currentItem.Quality + 1;
-
-                    if (currentItem.Name == "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (currentItem.SellIn < 11)
-                        {
-                            if (currentItem.Quality < 50)
-                            {
-                                currentItem.Quality = currentItem.Quality + 1;
-                            }
-                        }
-
-                        if (currentItem.SellIn < 6)
-                        {
-                            if (currentItem.Quality < 50)
-                            {
-                                currentItem.Quality = currentItem.Quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (currentItem.Name != "Sulfuras, Hand of Ragnaros")
-            {
-                currentItem.SellIn = currentItem.SellIn - 1;
-            }
-
-            if (currentItem.SellIn < 0)
-            {
-                if (currentItem.Name != "Aged Brie")
-                {
-                    if (currentItem.Name != "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (currentItem.Quality > 0)
-                        {
-                            if (currentItem.Name != "Sulfuras, Hand of Ragnaros")
-                            {
-                                currentItem.Quality = currentItem.Quality - 1;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        currentItem.Quality = currentItem.Quality - currentItem.Quality;
-                    }
-                }
-                else
-                {
-                    if (currentItem.Quality < 50)
-                    {
-                        currentItem.Quality = currentItem.Quality + 1;
-                    }
-                }
-            }
+            _itemUpdaters.ToList().ForEach(updater => updater.Update());
         }
     }
 
@@ -126,6 +53,79 @@ namespace GildedRose.Console
         public ItemUpdater(Item item)
         {
             Item = item;
+        }
+
+        public void Update()
+        {
+            if (Item.Name != "Aged Brie" && Item.Name != "Backstage passes to a TAFKAL80ETC concert")
+            {
+                if (Item.Quality > 0)
+                {
+                    if (Item.Name != "Sulfuras, Hand of Ragnaros")
+                    {
+                        Item.Quality = Item.Quality - 1;
+                    }
+                }
+            }
+            else
+            {
+                if (Item.Quality < 50)
+                {
+                    Item.Quality = Item.Quality + 1;
+
+                    if (Item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                    {
+                        if (Item.SellIn < 11)
+                        {
+                            if (Item.Quality < 50)
+                            {
+                                Item.Quality = Item.Quality + 1;
+                            }
+                        }
+
+                        if (Item.SellIn < 6)
+                        {
+                            if (Item.Quality < 50)
+                            {
+                                Item.Quality = Item.Quality + 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (Item.Name != "Sulfuras, Hand of Ragnaros")
+            {
+                Item.SellIn = Item.SellIn - 1;
+            }
+
+            if (Item.SellIn < 0)
+            {
+                if (Item.Name != "Aged Brie")
+                {
+                    if (Item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                    {
+                        if (Item.Quality > 0)
+                        {
+                            if (Item.Name != "Sulfuras, Hand of Ragnaros")
+                            {
+                                Item.Quality = Item.Quality - 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Item.Quality = Item.Quality - Item.Quality;
+                    }
+                }
+                else
+                {
+                    if (Item.Quality < 50)
+                    {
+                        Item.Quality = Item.Quality + 1;
+                    }
+                }
+            }
         }
     }
 
