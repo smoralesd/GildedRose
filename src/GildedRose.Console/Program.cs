@@ -58,6 +58,19 @@ namespace GildedRose.Console
         void Update();
     }
 
+    public class NullItemUpdater : IItemUpdater
+    {
+        public Item Item { get; }
+
+        public NullItemUpdater(Item item)
+        {
+            Item = item;
+        }
+        public void Update()
+        {
+            //NO OP
+        }
+    }
     public class ItemUpdater : IItemUpdater
     {
         public Item Item { get; }
