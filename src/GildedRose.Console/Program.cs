@@ -16,7 +16,7 @@ namespace GildedRose.Console
 
         public Program(IEnumerable<Item> items)
         {
-            _itemUpdaters = items.Select(i => new ItemUpdater(i) as IItemUpdater).ToList();
+            _itemUpdaters = items.Select(ItemUpdaterFactory.Create).ToList();
         }
 
         public static void Main(string[] args)
@@ -46,6 +46,13 @@ namespace GildedRose.Console
         }
     }
 
+    public class ItemUpdaterFactory
+    {
+        public static IItemUpdater Create(Item item)
+        {
+            return new ItemUpdater(item);
+        }
+    }
     public interface IItemUpdater
     {
         void Update();
