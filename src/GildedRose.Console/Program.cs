@@ -5,7 +5,7 @@ namespace GildedRose.Console
 {
     public class Program
     {
-        private readonly IList<ItemUpdater> _itemUpdaters;
+        private readonly IList<IItemUpdater> _itemUpdaters;
 
         public static Item DexteryVest => new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20};
         public static Item AgedBrie => new Item {Name = "Aged Brie", SellIn = 2, Quality = 0};
@@ -16,7 +16,7 @@ namespace GildedRose.Console
 
         public Program(IEnumerable<Item> items)
         {
-            _itemUpdaters = items.Select(i => new ItemUpdater(i)).ToList();
+            _itemUpdaters = items.Select(i => new ItemUpdater(i) as IItemUpdater).ToList();
         }
 
         public static void Main(string[] args)
@@ -46,7 +46,12 @@ namespace GildedRose.Console
         }
     }
 
-    public class ItemUpdater
+    public interface IItemUpdater
+    {
+        void Update();
+    }
+
+    public class ItemUpdater : IItemUpdater
     {
         public Item Item { get; }
 
