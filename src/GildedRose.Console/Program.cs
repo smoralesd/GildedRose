@@ -66,6 +66,11 @@ namespace GildedRose.Console
                 return new RangeItemUpdater(item);
             }
 
+            if (item.Name.Equals(Program.AgedBrie.Name))
+            {
+                return new IncreasingQualityItemUpdater(item);
+            }
+
             return new ItemUpdater(item);
         }
     }
@@ -134,6 +139,23 @@ namespace GildedRose.Console
             }
 
             --Item.SellIn;
+        }
+    }
+
+    public class IncreasingQualityItemUpdater : NullItemUpdater, IItemUpdater
+    {
+        public IncreasingQualityItemUpdater(Item item): base(item) {}
+
+        public new void Update()
+        {
+            Item.Quality = Math.Min(Item.Quality + 1, 50);
+
+            Item.SellIn = Item.SellIn - 1;
+
+            if (Item.SellIn < 0)
+            {
+                Item.Quality = Math.Min(Item.Quality + 1, 50);
+            }
         }
     }
 
