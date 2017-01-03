@@ -71,7 +71,7 @@ namespace GildedRose.Console
                 return new IncreasingQualityItemUpdater(item);
             }
 
-            return new ItemUpdater(item);
+            throw new Exception(@"Unsuported item: <{item.Name}>");
         }
     }
     public interface IItemUpdater
@@ -155,75 +155,6 @@ namespace GildedRose.Console
             if (Item.SellIn < 0)
             {
                 Item.Quality = Math.Min(Item.Quality + 1, 50);
-            }
-        }
-    }
-
-    public class ItemUpdater : NullItemUpdater, IItemUpdater
-    {
-        public ItemUpdater(Item item) : base(item) {}
-
-        public new void Update()
-        {
-            if (Item.Name != "Aged Brie" && Item.Name != "Backstage passes to a TAFKAL80ETC concert")
-            {
-                if (Item.Quality > 0)
-                {
-                    Item.Quality = Item.Quality - 1;
-                }
-            }
-            else
-            {
-                if (Item.Quality < 50)
-                {
-                    Item.Quality = Item.Quality + 1;
-
-                    if (Item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (Item.SellIn < 11)
-                        {
-                            if (Item.Quality < 50)
-                            {
-                                Item.Quality = Item.Quality + 1;
-                            }
-                        }
-
-                        if (Item.SellIn < 6)
-                        {
-                            if (Item.Quality < 50)
-                            {
-                                Item.Quality = Item.Quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            Item.SellIn = Item.SellIn - 1;
-
-            if (Item.SellIn < 0)
-            {
-                if (Item.Name != "Aged Brie")
-                {
-                    if (Item.Name != "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (Item.Quality > 0)
-                        {
-                            Item.Quality = Item.Quality - 1;
-                        }
-                    }
-                    else
-                    {
-                        Item.Quality = Item.Quality - Item.Quality;
-                    }
-                }
-                else
-                {
-                    if (Item.Quality < 50)
-                    {
-                        Item.Quality = Item.Quality + 1;
-                    }
-                }
             }
         }
     }
