@@ -58,7 +58,7 @@ namespace GildedRose.Console
 
             if (item.Name.Equals(Program.DexteryVest.Name))
             {
-                return new DecayingItemUpdater(item);
+                return new DecayingQualityItemUpdater(item);
             }
 
             return new ItemUpdater(item);
@@ -83,9 +83,9 @@ namespace GildedRose.Console
         }
     }
 
-    public class DecayingItemUpdater : NullItemUpdater, IItemUpdater
+    public class DecayingQualityItemUpdater : NullItemUpdater, IItemUpdater
     {
-        public DecayingItemUpdater(Item item): base(item) { }
+        public DecayingQualityItemUpdater(Item item): base(item) { }
 
         public new void Update()
         {
