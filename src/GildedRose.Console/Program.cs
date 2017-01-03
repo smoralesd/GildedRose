@@ -58,12 +58,12 @@ namespace GildedRose.Console
 
             if (item.Name.Equals(Program.DexteryVest.Name) || item.Name.Equals(Program.MongooseElixir.Name))
             {
-                return new DecayingQualityItemUpdater(item, current => Math.Max(current - 1, 0));
+                return new CustomMethodQualityUpdater(item, current => Math.Max(current - 1, 0));
             }
 
             if (item.Name.Equals(Program.ManaCake.Name))
             {
-                return new DecayingQualityItemUpdater(item, current => Math.Max(current - 2, 0));
+                return new CustomMethodQualityUpdater(item, current => Math.Max(current - 2, 0));
             }
 
             if (item.Name.Equals(Program.BackstagePasses.Name))
@@ -73,7 +73,7 @@ namespace GildedRose.Console
 
             if (item.Name.Equals(Program.AgedBrie.Name))
             {
-                return new IncreasingQualityItemUpdater(item);
+                return new CustomMethodQualityUpdater(item, current => Math.Min(current + 1, 50));
             }
 
             throw new Exception(@"Unsuported item: <{item.Name}>");
@@ -100,11 +100,11 @@ namespace GildedRose.Console
         }
     }
 
-    public class DecayingQualityItemUpdater : NullItemUpdater, IItemUpdater
+    public class CustomMethodQualityUpdater : NullItemUpdater, IItemUpdater
     {
         private readonly Func<int, int> _getUpdatedQuality;
 
-        public DecayingQualityItemUpdater(Item item, Func<int, int> getUpdatedQuality) : base(item)
+        public CustomMethodQualityUpdater(Item item, Func<int, int> getUpdatedQuality) : base(item)
         {
             _getUpdatedQuality = getUpdatedQuality;
         }
@@ -153,25 +153,6 @@ namespace GildedRose.Console
             }
 
             --Item.SellIn;
-        }
-    }
-
-    public class IncreasingQualityItemUpdater : NullItemUpdater, IItemUpdater
-    {
-        public IncreasingQualityItemUpdater(Item item) : base(item)
-        {
-        }
-
-        public new void Update()
-        {
-            Item.Quality = Math.Min(Item.Quality + 1, 50);
-
-            Item.SellIn = Item.SellIn - 1;
-
-            if (Item.SellIn < 0)
-            {
-                Item.Quality = Math.Min(Item.Quality + 1, 50);
-            }
         }
     }
 
