@@ -158,7 +158,7 @@ namespace GildedRose.Tests
                 app.UpdateQuality();
 
                 updatee.Name.ShouldBeEquivalentTo(expectedName, $"<Name on update step [{updateStep}]>");
-                updatee.Quality.ShouldBeEquivalentTo(expected.Quality, $"<Quality on update step [{updateStep}]?");
+                updatee.Quality.ShouldBeEquivalentTo(expected.Quality, $"<Quality on update step [{updateStep}]>");
                 updatee.SellIn.ShouldBeEquivalentTo(expected.SellIn, $"<SellIn on update step [{updateStep}]>");
 
                 ++updateStep;
