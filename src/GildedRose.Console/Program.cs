@@ -61,6 +61,11 @@ namespace GildedRose.Console
                 return new DecayingQualityItemUpdater(item);
             }
 
+            if (item.Name.Equals(Program.BackstagePasses.Name))
+            {
+                return new RangeItemUpdater(item);
+            }
+
             return new ItemUpdater(item);
         }
     }
@@ -97,6 +102,38 @@ namespace GildedRose.Console
             {
                 Item.Quality = Math.Max(Item.Quality - 1, 0);
             }
+        }
+    }
+
+    public class RangeItemUpdater : NullItemUpdater, IItemUpdater
+    {
+        public RangeItemUpdater(Item item): base(item) { }
+
+        public new void Update()
+        {
+            if (Item.SellIn <= 0)
+            {
+                Item.Quality = 0;
+                --Item.SellIn;
+                return;
+            }
+
+            if (Item.Quality < 50)
+            {
+                Item.Quality = Item.Quality + 1;
+
+                if (Item.SellIn < 11 && Item.Quality < 50)
+                {
+                    Item.Quality = Item.Quality + 1;
+                }
+
+                if (Item.SellIn < 6 && Item.Quality < 50)
+                {
+                    Item.Quality = Item.Quality + 1;
+                }
+            }
+
+            --Item.SellIn;
         }
     }
 
