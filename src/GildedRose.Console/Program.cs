@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GildedRose.Console
@@ -55,6 +56,11 @@ namespace GildedRose.Console
                 return new NullItemUpdater(item);
             }
 
+            if (item.Name.Equals(Program.DexteryVest.Name))
+            {
+                return new DecayingItemUpdater(item);
+            }
+
             return new ItemUpdater(item);
         }
     }
@@ -74,6 +80,23 @@ namespace GildedRose.Console
         public void Update()
         {
             //NO OP
+        }
+    }
+
+    public class DecayingItemUpdater : NullItemUpdater, IItemUpdater
+    {
+        public DecayingItemUpdater(Item item): base(item) { }
+
+        public new void Update()
+        {
+            Item.Quality = Math.Max(Item.Quality - 1, 0);
+
+            Item.SellIn = Item.SellIn - 1;
+
+            if (Item.SellIn < 0)
+            {
+                Item.Quality = Math.Max(Item.Quality - 1, 0);
+            }
         }
     }
 
