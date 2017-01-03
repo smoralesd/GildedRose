@@ -56,7 +56,7 @@ namespace GildedRose.Console
                 return new NullItemUpdater(item);
             }
 
-            if (item.Name.Equals(Program.DexteryVest.Name))
+            if (item.Name.Equals(Program.DexteryVest.Name) || item.Name.Equals(Program.MongooseElixir.Name))
             {
                 return new DecayingQualityItemUpdater(item);
             }
