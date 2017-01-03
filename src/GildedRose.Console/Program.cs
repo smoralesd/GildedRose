@@ -58,7 +58,12 @@ namespace GildedRose.Console
 
             if (item.Name.Equals(Program.DexteryVest.Name) || item.Name.Equals(Program.MongooseElixir.Name))
             {
-                return new DecayingQualityItemUpdater(item);
+                return new DecayingQualityItemUpdater(item, current => Math.Max(current - 1, 0));
+            }
+
+            if (item.Name.Equals(Program.ManaCake.Name))
+            {
+                return new DecayingQualityItemUpdater(item, current => Math.Max(current - 2, 0));
             }
 
             if (item.Name.Equals(Program.BackstagePasses.Name))
@@ -74,6 +79,7 @@ namespace GildedRose.Console
             throw new Exception(@"Unsuported item: <{item.Name}>");
         }
     }
+
     public interface IItemUpdater
     {
         void Update();
@@ -87,6 +93,7 @@ namespace GildedRose.Console
         {
             Item = item;
         }
+
         public void Update()
         {
             //NO OP
@@ -95,24 +102,31 @@ namespace GildedRose.Console
 
     public class DecayingQualityItemUpdater : NullItemUpdater, IItemUpdater
     {
-        public DecayingQualityItemUpdater(Item item): base(item) { }
+        private readonly Func<int, int> _getUpdatedQuality;
+
+        public DecayingQualityItemUpdater(Item item, Func<int, int> getUpdatedQuality) : base(item)
+        {
+            _getUpdatedQuality = getUpdatedQuality;
+        }
 
         public new void Update()
         {
-            Item.Quality = Math.Max(Item.Quality - 1, 0);
+            Item.Quality = _getUpdatedQuality(Item.Quality);
 
             Item.SellIn = Item.SellIn - 1;
 
             if (Item.SellIn < 0)
             {
-                Item.Quality = Math.Max(Item.Quality - 1, 0);
+                Item.Quality = _getUpdatedQuality(Item.Quality);
             }
         }
     }
 
     public class RangeItemUpdater : NullItemUpdater, IItemUpdater
     {
-        public RangeItemUpdater(Item item): base(item) { }
+        public RangeItemUpdater(Item item) : base(item)
+        {
+        }
 
         public new void Update()
         {
@@ -144,7 +158,9 @@ namespace GildedRose.Console
 
     public class IncreasingQualityItemUpdater : NullItemUpdater, IItemUpdater
     {
-        public IncreasingQualityItemUpdater(Item item): base(item) {}
+        public IncreasingQualityItemUpdater(Item item) : base(item)
+        {
+        }
 
         public new void Update()
         {
@@ -167,5 +183,4 @@ namespace GildedRose.Console
 
         public int Quality { get; set; }
     }
-
 }
