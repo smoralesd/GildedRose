@@ -76,16 +76,12 @@ namespace GildedRose.Console
             //NO OP
         }
     }
-    public class ItemUpdater : IItemUpdater
+
+    public class ItemUpdater : NullItemUpdater, IItemUpdater
     {
-        public Item Item { get; }
+        public ItemUpdater(Item item) : base(item) {}
 
-        public ItemUpdater(Item item)
-        {
-            Item = item;
-        }
-
-        public void Update()
+        public new void Update()
         {
             if (Item.Name != "Aged Brie" && Item.Name != "Backstage passes to a TAFKAL80ETC concert")
             {
