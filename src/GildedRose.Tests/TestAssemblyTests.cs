@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
@@ -23,6 +24,16 @@ namespace GildedRose.Tests
             var vest = new Item {Name = "+5 Dexterity Vest", SellIn = 0, Quality = 20};
             new TestRunner(vest)
                 .SetExpectedSellIn(-1)
+                .SetExpectedQuality(18)
+                .Run();
+        }
+
+        [Fact]
+        public void DexteryVestNegativeSellInHighQuality()
+        {
+            var vest = new Item {Name = "+5 Dexterity Vest", SellIn = -10, Quality = 20};
+            new TestRunner(vest)
+                .SetExpectedSellIn(-11)
                 .SetExpectedQuality(18)
                 .Run();
         }
@@ -56,6 +67,11 @@ namespace GildedRose.Tests
 
             public TestRunner(Item item)
             {
+                if (item == null)
+                {
+                    throw new Exception("null item");
+                }
+
                 _item = item;
                 _originalName = item.Name;
             }
