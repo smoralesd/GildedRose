@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GildedRose.Console
 {
     public class Program
     {
-        private readonly IList<Item> _items;
+        private readonly IEnumerable<ItemUpdater> _itemUpdaters;
 
-        public Program(IList<Item> items)
+        public Program(IEnumerable<Item> items)
         {
-            _items = items;
+            _itemUpdaters = items.Select(i => new ItemUpdater(i));
         }
 
         static void Main(string[] args)
@@ -34,82 +33,14 @@ namespace GildedRose.Console
                 }
             );
 
-            app.UpdateQuality();
+            app.UpdateAll();
 
             System.Console.ReadKey();
         }
 
-        public void UpdateQuality()
+        public void UpdateAll()
         {
-            _items.ToList().ForEach(UpdateItemQuality);
+            _itemUpdaters.ToList().ForEach(u => u.Update());
         }
-
-        private static void DecreaseByAmount(Item item, int amount)
-        {
-            var effectiveAmount = item.SellIn <= 0 ? 2 * amount : amount;
-            item.Quality = Math.Max(item.Quality - effectiveAmount, 0);
-            --item.SellIn;
-        }
-
-        private static void IncreaseByAmount(Item item, int amount)
-        {
-            var effectiveAMount = item.SellIn <= 0 ? 2*amount : amount;
-            item.Quality = Math.Min(item.Quality + effectiveAMount, 50);
-            --item.SellIn;
-        }
-
-        private static void BackstagePasses(Item item)
-        {
-            ++item.Quality;
-
-            if (item.SellIn < 11)
-            {
-                ++item.Quality;
-            }
-
-            if (item.SellIn < 6)
-            {
-                ++item.Quality;
-            }
-
-            item.Quality = Math.Min(item.Quality, 50);
-            --item.SellIn;
-
-            if (item.SellIn < 0)
-            {
-                item.Quality = 0;
-            }
-        }
-
-        private static void UpdateItemQuality(Item item)
-        {
-            switch (item.Name)
-            {
-                case "Conjured Mana Cake":
-                    DecreaseByAmount(item, 2);
-                    return;
-                case "+5 Dexterity Vest":
-                case "Elixir of the Mongoose":
-                    DecreaseByAmount(item, 1);
-                    return;
-                case "Aged Brie":
-                    IncreaseByAmount(item, 1);
-                    return;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    BackstagePasses(item);
-                    return;
-                default:
-                    return;
-            }
-        }
-    }
-
-    public class Item
-    {
-        public string Name { get; set; }
-
-        public int SellIn { get; set; }
-
-        public int Quality { get; set; }
     }
 }
