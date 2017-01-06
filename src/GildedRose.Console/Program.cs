@@ -5,11 +5,11 @@ namespace GildedRose.Console
 {
     public class Program
     {
-        private readonly IEnumerable<ItemUpdater> _itemUpdaters;
+        private readonly IEnumerable<IItemUpdater> _itemUpdaters;
 
         public Program(IEnumerable<Item> items)
         {
-            _itemUpdaters = items.Select(i => new ItemUpdater(i));
+            _itemUpdaters = items.Select(ItemUpdaterFactory.Create);
         }
 
         static void Main(string[] args)

@@ -2,9 +2,47 @@
 
 namespace GildedRose.Console
 {
+    public class ItemUpdaterFactory
+    {
+        public static IItemUpdater Create(Item item)
+        {
+            switch (item.Name)
+            {
+                case "Conjured Mana Cake":
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.DecreaseByAmount(toUpdate, 2));
+                case "+5 Dexterity Vest":
+                case "Elixir of the Mongoose":
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.DecreaseByAmount(toUpdate, 1));
+                case "Aged Brie":
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.IncreaseByAmount(toUpdate, 1));
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    return new UpdateByFunction(item, ItemUpdater.BackstagePasses);
+                default:
+                    return new UpdateByFunction(item, toUpdate => { });
+            }
+        }
+    }
+
     public interface IItemUpdater
     {
         void Update();
+    }
+
+    public class UpdateByFunction : IItemUpdater
+    {
+        private readonly Item _item;
+        private readonly Action<Item> _updateFunction;
+
+        public UpdateByFunction(Item item, Action<Item> updateFunction)
+        {
+            _item = item;
+            _updateFunction = updateFunction;
+        }
+
+        public void Update()
+        {
+            _updateFunction(_item);
+        }
     }
 
     public class ItemUpdater : IItemUpdater
@@ -21,21 +59,21 @@ namespace GildedRose.Console
             UpdateItemQuality(_item);
         }
 
-        private static void DecreaseByAmount(Item item, int amount)
+        public static void DecreaseByAmount(Item item, int amount)
         {
             var effectiveAmount = item.SellIn <= 0 ? 2 * amount : amount;
             item.Quality = Math.Max(item.Quality - effectiveAmount, 0);
             --item.SellIn;
         }
 
-        private static void IncreaseByAmount(Item item, int amount)
+        public static void IncreaseByAmount(Item item, int amount)
         {
             var effectiveAMount = item.SellIn <= 0 ? 2*amount : amount;
             item.Quality = Math.Min(item.Quality + effectiveAMount, 50);
             --item.SellIn;
         }
 
-        private static void BackstagePasses(Item item)
+        public static void BackstagePasses(Item item)
         {
             ++item.Quality;
 
