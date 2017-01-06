@@ -54,24 +54,46 @@ namespace GildedRose.Console
             --item.SellIn;
         }
 
+        private static void BackstagePasses(Item item)
+        {
+            ++item.Quality;
+
+            if (item.SellIn < 11)
+            {
+                ++item.Quality;
+            }
+
+            if (item.SellIn < 6)
+            {
+                ++item.Quality;
+            }
+
+            item.Quality = Math.Min(item.Quality, 50);
+            --item.SellIn;
+
+            if (item.SellIn < 0)
+            {
+                item.Quality = 0;
+            }
+        }
+
         private static void UpdateItemQuality(Item item)
         {
-            if (item.Name == "Conjured Mana Cake")
+            switch (item.Name)
             {
-                DecreaseByAmount(item, 2);
-                return;
-            }
-
-            if (item.Name == "+5 Dexterity Vest" || item.Name == "Elixir of the Mongoose")
-            {
-                DecreaseByAmount(item, 1);
-                return;
-            }
-
-            if (item.Name == "Aged Brie")
-            {
-                IncreaseByAmount(item, 1);
-                return;
+                case "Conjured Mana Cake":
+                    DecreaseByAmount(item, 2);
+                    return;
+                case "+5 Dexterity Vest":
+                case "Elixir of the Mongoose":
+                    DecreaseByAmount(item, 1);
+                    return;
+                case "Aged Brie":
+                    IncreaseByAmount(item, 1);
+                    return;
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    BackstagePasses(item);
+                    return;
             }
 
             if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
