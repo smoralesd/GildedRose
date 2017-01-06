@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="AgedBrieTests.cs" />
     <Compile Include="BackstagePassesTests.cs" />
+    <Compile Include="ConjuredManaCakeTests.cs" />
     <Compile Include="DexteryVestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MongooseElixirTests.cs" />
