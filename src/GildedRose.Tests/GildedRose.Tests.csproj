@@ -71,6 +71,7 @@
     <Compile Include="DexteryVestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MongooseElixirTests.cs" />
+    <Compile Include="SulfurasTests.cs" />
     <Compile Include="TestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
