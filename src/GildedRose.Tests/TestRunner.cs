@@ -36,7 +36,7 @@ namespace GildedRose.Tests
 
         public void Run()
         {
-            var app = new Program { Items = new List<Item> { _item } };
+            var app = new Program (new List<Item> { _item });
             app.UpdateQuality();
 
             _item.Name.ShouldAllBeEquivalentTo(_originalName);
