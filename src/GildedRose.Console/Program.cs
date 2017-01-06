@@ -47,11 +47,30 @@ namespace GildedRose.Console
             --item.SellIn;
         }
 
+        private static void IncreaseByAmount(Item item, int amount)
+        {
+            var effectiveAMount = item.SellIn <= 0 ? 2*amount : amount;
+            item.Quality = Math.Min(item.Quality + effectiveAMount, 50);
+            --item.SellIn;
+        }
+
         private static void UpdateItemQuality(Item item)
         {
             if (item.Name == "Conjured Mana Cake")
             {
                 DecreaseByAmount(item, 2);
+                return;
+            }
+
+            if (item.Name == "+5 Dexterity Vest" || item.Name == "Elixir of the Mongoose")
+            {
+                DecreaseByAmount(item, 1);
+                return;
+            }
+
+            if (item.Name == "Aged Brie")
+            {
+                IncreaseByAmount(item, 1);
                 return;
             }
 
