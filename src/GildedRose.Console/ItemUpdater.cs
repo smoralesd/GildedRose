@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GildedRose.Console
 {
@@ -16,9 +18,64 @@ namespace GildedRose.Console
                 case "Aged Brie":
                     return new UpdateByFunction(item, toUpdate => ItemUpdater.UpdateByAmount(toUpdate, 1));
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    return new UpdateByFunction(item, ItemUpdater.BackstagePasses);
+                    var updater = new RangeUpdater.Builder()
+                        .AddThreshold(new RangeUpdater.Threshold {MaxValue = 6, UpdateAmount = 3})
+                        .AddThreshold(new RangeUpdater.Threshold {MaxValue = 11, UpdateAmount = 2})
+                        .AddThreshold(new RangeUpdater.Threshold {MaxValue = int.MaxValue, UpdateAmount = 1})
+                        .Build();
+                    return new UpdateByFunction(item, updater.Update);
                 default:
                     return new UpdateByFunction(item, toUpdate => { });
+            }
+        }
+
+        private class RangeUpdater
+        {
+            private int _maxQualityValue;
+            private IEnumerable<Threshold> _thresholds;
+
+            public void Update(Item item)
+            {
+                if (item.SellIn <= 0)
+                {
+                    --item.SellIn;
+                    item.Quality = 0;
+                    return;
+                }
+
+                var posibleThresholds = _thresholds.Where(t => t.MaxValue > item.SellIn).ToList();
+                posibleThresholds.Sort((a, b) => a.MaxValue - b.MaxValue);
+                var threshold = posibleThresholds.First();
+                item.Quality = Math.Min(item.Quality + threshold.UpdateAmount, _maxQualityValue);
+                --item.SellIn;
+            }
+
+            public class Threshold
+            {
+                public int MaxValue;
+                public int UpdateAmount;
+
+
+            }
+
+            public class Builder
+            {
+                private const int MaxQualityValue = 50;
+                private readonly IList<Threshold> _thresholds = new List<Threshold>();
+
+                public Builder AddThreshold(Threshold t)
+                {
+                    _thresholds.Add(t);
+                    return this;
+                }
+
+                public RangeUpdater Build()
+                {
+                    var toSort = _thresholds.ToList();
+                    toSort.Sort((a, b) => a.MaxValue - b.MaxValue);
+
+                    return new RangeUpdater {_maxQualityValue = MaxQualityValue, _thresholds = toSort};
+                }
             }
         }
 
@@ -55,8 +112,6 @@ namespace GildedRose.Console
                 }
             }
         }
-
-
     }
 
     public interface IItemUpdater
