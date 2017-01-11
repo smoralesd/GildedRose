@@ -9,12 +9,12 @@ namespace GildedRose.Console
             switch (item.Name)
             {
                 case "Conjured Mana Cake":
-                    return new UpdateByFunction(item, toUpdate => ItemUpdater.DecreaseByAmount(toUpdate, 2));
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.UpdateByAmount(toUpdate, -2));
                 case "+5 Dexterity Vest":
                 case "Elixir of the Mongoose":
-                    return new UpdateByFunction(item, toUpdate => ItemUpdater.DecreaseByAmount(toUpdate, 1));
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.UpdateByAmount(toUpdate, -1));
                 case "Aged Brie":
-                    return new UpdateByFunction(item, toUpdate => ItemUpdater.IncreaseByAmount(toUpdate, 1));
+                    return new UpdateByFunction(item, toUpdate => ItemUpdater.UpdateByAmount(toUpdate, 1));
                 case "Backstage passes to a TAFKAL80ETC concert":
                     return new UpdateByFunction(item, ItemUpdater.BackstagePasses);
                 default:
@@ -24,17 +24,11 @@ namespace GildedRose.Console
 
         private static class ItemUpdater
         {
-            public static void DecreaseByAmount(Item item, int amount)
+            public static void UpdateByAmount(Item item, int amount)
             {
                 var effectiveAmount = item.SellIn <= 0 ? 2 * amount : amount;
-                item.Quality = Math.Max(item.Quality - effectiveAmount, 0);
-                --item.SellIn;
-            }
-
-            public static void IncreaseByAmount(Item item, int amount)
-            {
-                var effectiveAMount = item.SellIn <= 0 ? 2 * amount : amount;
-                item.Quality = Math.Min(item.Quality + effectiveAMount, 50);
+                item.Quality = Math.Max(item.Quality + effectiveAmount, 0);
+                item.Quality = Math.Min(item.Quality, 50);
                 --item.SellIn;
             }
 
